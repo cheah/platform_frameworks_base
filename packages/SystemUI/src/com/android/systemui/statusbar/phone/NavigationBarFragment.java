@@ -847,14 +847,20 @@ public class NavigationBarFragment extends LifecycleFragment implements Callback
     private boolean onLongPressRecents() {
         if (mRecents == null || !ActivityTaskManager.supportsMultiWindow(getContext())
                 || !mDivider.getView().getSnapAlgorithm().isSplitScreenFeasible()
-                || ActivityManager.isLowRamDeviceStatic()
-                // If we are connected to the overview service, then disable the recents button
-                || mOverviewProxyService.getProxy() != null) {
+                || ActivityManager.isLowRamDeviceStatic()) {
             return false;
         }
 
-        return mStatusBar.toggleSplitScreenMode(MetricsEvent.ACTION_WINDOW_DOCK_LONGPRESS,
-                MetricsEvent.ACTION_WINDOW_UNDOCK_LONGPRESS);
+        mCommandQueue.toggleSplitScreen();
+        mStatusBar.awakenDreams();
+        if (mOverviewProxyService.getProxy() != null) {
+          try {
+            mOverviewProxyService.getProxy().onOverviewShown(true);
+          } catch (RemoteException e) {
+              return false;
+          }
+        }
+        return true;
     }
 
     private void onAccessibilityClick(View v) {
