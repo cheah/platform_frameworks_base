@@ -197,6 +197,9 @@ import com.android.internal.net.INetworkWatchlistManager;
 import com.android.internal.os.IDropBoxManagerService;
 import com.android.internal.policy.PhoneLayoutInflater;
 
+import com.ucast.ISimpleUcast;
+import com.ucast.SimpleUcastImpl;
+
 import java.util.Map;
 
 /**
@@ -219,6 +222,13 @@ final class SystemServiceRegistry {
 
     static {
         //CHECKSTYLE:OFF IndentationCheck
+        registerService("ucast", ISimpleUcast.class,
+                new CachedServiceFetcher<ISimpleUcast>() {
+            @Override
+            public ISimpleUcast createService(ContextImpl ctx) {
+                return new SimpleUcastImpl();
+            }});
+
         registerService(Context.ACCESSIBILITY_SERVICE, AccessibilityManager.class,
                 new CachedServiceFetcher<AccessibilityManager>() {
             @Override
