@@ -197,6 +197,10 @@ import com.android.internal.net.INetworkWatchlistManager;
 import com.android.internal.os.IDropBoxManagerService;
 import com.android.internal.policy.PhoneLayoutInflater;
 
+import com.ucast.ISimpleUcast;
+import com.ucast.SimpleUcastImpl;
+import com.ucast.ISimpleDeviceService;
+
 import java.util.Map;
 
 /**
@@ -219,6 +223,15 @@ final class SystemServiceRegistry {
 
     static {
         //CHECKSTYLE:OFF IndentationCheck
+        registerService("ucast", ISimpleUcast.class,
+                new CachedServiceFetcher<ISimpleUcast>() {
+            @Override
+            public ISimpleUcast createService(ContextImpl ctx) throws ServiceNotFoundException {
+                IBinder b = ServiceManager.getServiceOrThrow("idevice");
+                ISimpleDeviceService service = ISimpleDeviceService.Stub.asInterface(b);
+                return new SimpleUcastImpl(service);
+            }});
+
         registerService(Context.ACCESSIBILITY_SERVICE, AccessibilityManager.class,
                 new CachedServiceFetcher<AccessibilityManager>() {
             @Override
