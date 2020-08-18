@@ -1,5 +1,5 @@
 package com.ucast;
 
 public interface ISimpleUcast {
-    int helloGrab();
+    SimpleUcastResponse helloGrab(int a, int b);
 }

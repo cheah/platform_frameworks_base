@@ -167,6 +167,8 @@ import java.util.Timer;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 
+import com.ucast.SimpleDeviceService;
+
 public final class SystemServer {
 
     private static final String TAG = "SystemServer";
@@ -1196,6 +1198,9 @@ public final class SystemServer {
         traceEnd();
 
         if (mFactoryTestMode != FactoryTest.FACTORY_TEST_LOW_LEVEL) {
+
+            ServiceManager.addService("idevice", new SimpleDeviceService());
+
             traceBeginAndSlog("StartLockSettingsService");
             try {
                 mSystemServiceManager.startService(LOCK_SETTINGS_SERVICE_CLASS);

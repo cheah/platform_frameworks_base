@@ -661,6 +661,7 @@ java_defaults {
         "packages/services/Proxy/com/android/net/IProxyPortListener.aidl",
         "core/java/android/service/quicksettings/IQSService.aidl",
         "core/java/android/service/quicksettings/IQSTileService.aidl",
+        "ucast/java/com/ucast/ISimpleDeviceService.aidl",
 
         ":libupdate_engine_aidl",
 
@@ -1231,7 +1232,7 @@ frameworks_base_subdirs = [
     "lowpan/java",
     "keystore/java",
     "rs/java",
-    "ucast/java"
+    "ucast/java",
 ]
 
 packages_to_document = [
@@ -1239,6 +1240,7 @@ packages_to_document = [
     "javax/microedition/khronos",
     "org/apache/http/conn",
     "org/apache/http/params",
+    "com/ucast",
 ]
 
 // Make the api/current.txt file available for use by modules in other

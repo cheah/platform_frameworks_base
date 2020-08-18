@@ -199,6 +199,7 @@ import com.android.internal.policy.PhoneLayoutInflater;
 
 import com.ucast.ISimpleUcast;
 import com.ucast.SimpleUcastImpl;
+import com.ucast.ISimpleDeviceService;
 
 import java.util.Map;
 
@@ -225,8 +226,10 @@ final class SystemServiceRegistry {
         registerService("ucast", ISimpleUcast.class,
                 new CachedServiceFetcher<ISimpleUcast>() {
             @Override
-            public ISimpleUcast createService(ContextImpl ctx) {
-                return new SimpleUcastImpl();
+            public ISimpleUcast createService(ContextImpl ctx) throws ServiceNotFoundException {
+                IBinder b = ServiceManager.getServiceOrThrow("idevice");
+                ISimpleDeviceService service = ISimpleDeviceService.Stub.asInterface(b);
+                return new SimpleUcastImpl(service);
             }});
 
         registerService(Context.ACCESSIBILITY_SERVICE, AccessibilityManager.class,
